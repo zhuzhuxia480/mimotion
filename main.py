@@ -80,7 +80,8 @@ def push_plus(title, content):
         "title": title,
         "content": content,
         "template": "html",
-        "channel": "wechat"
+        "channel": "wechat",
+        "topic": "zzx"
     }
     try:
         response = requests.post(requestUrl, data=data)
