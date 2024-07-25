@@ -1,4 +1,4 @@
-name: flush step
+name: 刷步数
 
 on:
   schedule:
