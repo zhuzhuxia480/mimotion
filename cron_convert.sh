@@ -84,7 +84,7 @@ function persist_execute_log {
     echo "current system time:"
     TZ='UTC' date "+%y-%m-%d %H:%M:%S" | xargs -I {} echo "UTC: {}"
     TZ='Asia/Shanghai' date "+%y-%m-%d %H:%M:%S" | xargs -I {} echo "北京时间: {}"
-  } > cron_change_time
+  } >> cron_change_time
 
 
   exit 0
