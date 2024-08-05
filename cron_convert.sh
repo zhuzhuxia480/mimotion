@@ -76,7 +76,7 @@ function convert_utc_to_shanghai {
 }
 
 function persist_execute_log {
-  exit 1
+  exit 0
   local event_name=$1
   local new_cron_hours=$2
   echo "trigger by: ${event_name}" > cron_change_time
