@@ -86,6 +86,7 @@ function persist_execute_log {
     TZ='Asia/Shanghai' date "+%y-%m-%d %H:%M:%S" | xargs -I {} echo "北京时间: {}"
   } >> cron_change_time
 
+  cat cron_change_time
 
   exit 0
   current_cron=$(< .github/workflows/run.yml grep cron|awk '{print substr($0, index($0,$3))}')
