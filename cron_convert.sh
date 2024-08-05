@@ -88,7 +88,7 @@ function persist_execute_log {
 
   cat cron_change_time
 
-  exit 0
+  return 0
   current_cron=$(< .github/workflows/run.yml grep cron|awk '{print substr($0, index($0,$3))}')
   {
     echo "current cron:"
