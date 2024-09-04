@@ -71,7 +71,25 @@ def get_access_token(location):
         return None
     return result[0]
 
-
+# ft
+def push_ft(title, content):
+    requestUrl = f"https://sctapi.ftqq.com/" + PUSH_FT_TOKEN + ".send"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = {
+        "title": title,
+        "desp": content
+    }
+    try:
+        response = requests.post(requestUrl, data=data, headers=headers)
+        if response.status_code == 200:
+            json_res = response.json()
+            print(f"ft推送完毕：{json_res['code']}-{json_res['message']}")
+        else:
+            print("ft推送失败")
+    except:
+        print("ft推送异常")
 # pushplus消息推送
 def push_plus(title, content):
     requestUrl = f"http://www.pushplus.plus/send"
@@ -253,7 +271,8 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
-        push_plus(f"{format_now()} 刷步数通知", html)
+        # push_plus(f"{format_now()} 刷步数通知", html)
+        push_ft(f"{format_now()} 刷步数通知", html)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
