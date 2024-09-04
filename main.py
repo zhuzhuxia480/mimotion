@@ -9,6 +9,8 @@ import random
 import re
 import time
 import os
+import urllib.parse
+import urllib.request
 
 import requests
 
@@ -74,22 +76,13 @@ def get_access_token(location):
 # ft
 def push_ft(title, content):
     requestUrl = f"https://sctapi.ftqq.com/" + PUSH_FT_TOKEN + ".send"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = {
-        "title": title,
-        "desp": content
-    }
-    try:
-        response = requests.post(requestUrl, data=data, headers=headers)
-        if response.status_code == 200:
-            json_res = response.json()
-            print(f"ft推送完毕：{json_res['code']}-{json_res['message']}")
-        else:
-            print("ft推送失败")
-    except:
-        print("ft推送异常")
+    postdata = urllib.parse.urlencode({'title': title, 'desp': content}).encode('utf-8')
+    req = urllib.request.Request(requestUrl, data=postdata, method='POST')
+    with urllib.request.urlopen(req) as response:
+        result = response.read().decode('utf-8')
+        print(f"推送结果： {result}")
+    return result
+
 # pushplus消息推送
 def push_plus(title, content):
     requestUrl = f"http://www.pushplus.plus/send"
@@ -253,26 +246,26 @@ class MiMotionRunner:
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
+
     # 判断是否需要pushplus推送
-    if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
+    if PUSH_FT_TOKEN is not None and PUSH_FT_TOKEN != '' and PUSH_FT_TOKEN != 'NO':
         if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
             if time_bj.hour != int(PUSH_PLUS_HOUR):
                 print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
                 return
-        html = f'<div>{summary}</div>'
+        html = f'{summary}'
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
         else:
-            html += '<ul>'
+            html += ''
             for exec_result in exec_results:
                 success = exec_result['success']
                 if success is not None and success is True:
-                    html += f'<li><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
+                    html += f'账号：{exec_result["user"]} 刷步数成功，接口返回：{exec_result["msg"]}\n'
                 else:
-                    html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
-            html += '</ul>'
-        # push_plus(f"{format_now()} 刷步数通知", html)
+                    html += f'账号：{exec_result["user"]} 刷步数失败，失败原因：{exec_result["msg"]}\n'
         push_ft(f"{format_now()} 刷步数通知", html)
+
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
