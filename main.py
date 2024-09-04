@@ -246,7 +246,7 @@ class MiMotionRunner:
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
-
+    flag = "成功"
     # 判断是否需要pushplus推送
     if PUSH_FT_TOKEN is not None and PUSH_FT_TOKEN != '' and PUSH_FT_TOKEN != 'NO':
         if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
@@ -264,7 +264,8 @@ def push_to_push_plus(exec_results, summary):
                     html += f'账号：{exec_result["user"]} 刷步数成功，接口返回：{exec_result["msg"]}\n'
                 else:
                     html += f'账号：{exec_result["user"]} 刷步数失败，失败原因：{exec_result["msg"]}\n'
-        push_ft(f"{format_now()} 刷步数通知", html)
+                    flag = "失败"
+        push_ft(f"{flag}: {format_now()} 刷步数通知", html)
 
 
 
