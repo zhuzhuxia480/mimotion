@@ -25,6 +25,7 @@ jobs:
       - name: 开始
         env:
             CONFIG: ${{ secrets.CONFIG }}
+            PUSH_FT_TOKEN: ${{secrets.PUSH_FT_TOKEN}}
         run: |
           pip3 install requests pytz
           python3 main.py
