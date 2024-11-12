@@ -1,4 +1,4 @@
-name: Random Cron
+20name: Random Cron
 on:
   workflow_run:
     workflows: ["flush_step"]
@@ -17,9 +17,7 @@ jobs:
           token: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：README
       - name: random cron
         run: |
-          source cron_convert.sh
-          echo "configed CRON_HOURS ${{ vars.CRON_HOURS }}"
-          persist_execute_log ${{ github.event_name }} ${{ vars.CRON_HOURS }}
+          head -c 100 /dev/urandom > random.txt
           git config user.name zhuzhuxia
           git config user.email 742491842@qq.com
           git add .
