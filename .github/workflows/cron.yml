@@ -1,4 +1,4 @@
-20name: Random Cron
+name: Random Cron
 on:
   workflow_run:
     workflows: ["flush_step"]
