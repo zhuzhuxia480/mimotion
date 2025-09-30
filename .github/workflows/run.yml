@@ -27,5 +27,5 @@ jobs:
             CONFIG: ${{ secrets.CONFIG }}
             PUSH_FT_TOKEN: ${{secrets.PUSH_FT_TOKEN}}
         run: |
-          pip3 install requests pytz
+          pip3 install requests pytz pycryptodome
           python3 main.py
